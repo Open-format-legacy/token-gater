@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
-    "bnc-onboard": "^1.36.0",
+    "@web3-onboard/core": "^2.0.10",
+    "@web3-onboard/react": "^2.0.3",
+    "@web3-onboard/walletconnect": "^2.0.1",
     "ethers": "^5.5.2",
     "next": "12.0.7",
     "next-translate": "^1.2.0",
