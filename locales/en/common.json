@@ -1,0 +1,6 @@
+{
+  "wallet": {
+    "connect_button": "Connect wallet",
+    "disconnect_button": "Disconnect"
+  }
+}
