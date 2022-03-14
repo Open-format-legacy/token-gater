@@ -1,55 +1,45 @@
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { Button } from "../components";
-import { useWalletStore } from "../stores";
 import { BLOCK_EXPLORER_URL } from "../helpers";
 import useTranslation from "next-translate/useTranslation";
+import { useConnectWallet } from "@web3-onboard/react";
 
 export default function Header() {
-  const { address, onboard, resetWallet } = useWalletStore();
-
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const { t } = useTranslation("common");
-
-  async function connect() {
-    try {
-      if (onboard) {
-        await onboard.walletSelect();
-        await onboard.walletCheck();
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  async function connectWallet() {
+    await connect({});
   }
-
-  async function handleReset() {
-    window.localStorage.removeItem("selectedWallet");
-    resetWallet();
-
-    await onboard.walletReset();
+  async function disconnectWallet() {
+    await disconnect({ label: "WalletConnect" });
   }
-
   return (
     <header className="w-full">
-      <div className="flex items-center justify-end">
-        {address ? (
+      <div className="flex items-center justify-end space-x-4">
+        {wallet && wallet.accounts.length ? (
           <>
             <a
               target="_blank"
               rel="noreferrer"
-              href={BLOCK_EXPLORER_URL(address)}
+              href={BLOCK_EXPLORER_URL(wallet.accounts[0].address)}
             >
-              <div className="flex mx-2 hover:text-indigo-800">
+              <div className="mx-2 flex hover:text-indigo-800">
                 <span>
-                  {address.slice(0, 4)}...{address.slice(-4)}
+                  {wallet.accounts[0].address.slice(0, 4)}...
+                  {wallet.accounts[0].address.slice(-4)}
                 </span>
                 <ExternalLinkIcon className="h-6 w-6" />
               </div>
             </a>
-            <Button onClick={handleReset}>
+
+            <Button onClick={disconnectWallet}>
               {t("wallet.disconnect_button")}
             </Button>
           </>
         ) : (
-          <Button onClick={connect}>{t("wallet.connect_button")}</Button>
+          <Button onClick={connectWallet}>
+            {connecting ? "connecting..." : "connect"}
+          </Button>
         )}
       </div>
     </header>

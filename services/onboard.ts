@@ -1,25 +1,16 @@
-import Onboard from "bnc-onboard";
+import { init } from "@web3-onboard/react";
+import walletConnectModule from "@web3-onboard/walletconnect";
 
-const networkId = parseInt(process.env.NEXT_PUBLIC_NETWORK_ID || "80001", 10);
-const networkName = process.env.NEXT_PUBLIC_NETWORK_NAME || "mumbai";
-const dappId = process.env.NEXT_PUBLIC_BNC_API_KEY;
-const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
+const walletConnect = walletConnectModule();
 
-export default function initOnboard(subscriptions: any) {
-  return Onboard({
-    dappId,
-    hideBranding: true,
-    networkId,
-    networkName,
-    darkMode: false,
-    subscriptions,
-    walletSelect: {
-      wallets: [{ walletName: "metamask" }],
+export const initOnboard = init({
+  wallets: [walletConnect],
+  chains: [
+    {
+      id: "0x89",
+      token: "MATIC",
+      label: "Matic Mainnet",
+      rpcUrl: "https://matic-mainnet.chainstacklabs.com",
     },
-    walletCheck: [
-      { checkName: "connect" },
-      { checkName: "accounts" },
-      { checkName: "network" },
-    ],
-  });
-}
+  ],
+});
