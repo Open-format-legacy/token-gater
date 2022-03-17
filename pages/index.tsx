@@ -1,10 +1,6 @@
 import type { NextPage } from "next";
-import { Button } from "../components";
 import { callContract } from "../helpers";
-import useTranslation from "next-translate/useTranslation";
 import { useConnectWallet } from "@web3-onboard/react";
-import { BLOCK_EXPLORER_URL } from "../helpers";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -73,8 +69,8 @@ const Home: NextPage = () => {
     >
       <header className="w-full">
         <div className="flex h-screen items-center justify-center">
-          {(onSuccess && <p>Welcome🔥</p>) ||
-            (onError && <p>ACCESS DENIED! 🚫</p>)}
+          {onSuccess && <p>Welcome🔥</p>}
+          {onError && <p>ACCESS DENIED! 🚫</p>}
         </div>
       </header>
     </div>
