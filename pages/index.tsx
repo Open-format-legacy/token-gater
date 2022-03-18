@@ -4,6 +4,7 @@ import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
+import Confetti from "react-confetti";
 
 const Home: NextPage = () => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
             if (balance > ethers.BigNumber.from("0")) {
               setSuccess(true);
             } else {
-              setSuccess(false);
+              //setSuccess(false);
               setError(true);
             }
             await disconnectWallet();
@@ -67,12 +68,18 @@ const Home: NextPage = () => {
         "bg-green-700": onSuccess,
       })}
     >
-      <header className="w-full">
-        <div className="flex h-screen items-center justify-center">
-          {onSuccess && <p>Welcome🔥</p>}
-          {onError && <p>ACCESS DENIED! 🚫</p>}
-        </div>
-      </header>
+      <div className="flex h-screen items-center justify-center">
+        {onSuccess && <h1 className="text-9xl font-bold">Welcome🔥</h1>}
+        {onError && <h1 className="text-9xl font-bold">ACCESS DENIED! 🚫</h1>}
+      </div>
+      {onSuccess && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          gravity={0.5}
+          numberOfPieces={500}
+        />
+      )}
     </div>
   );
 };
