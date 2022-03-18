@@ -3,7 +3,7 @@ import { contracts } from "../constants";
 
 interface CallContractProps {
   name: ContractName;
-  provider: ethers.providers.ExternalProvider;
+  provider: EIP1193Provider; //change to new provider type
   cb: (contract: ethers.Contract) => void;
 }
 
